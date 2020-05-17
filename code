@@ -1,0 +1,243 @@
+package tictactoe;
+import java.util.Scanner;
+
+class Board{
+    private char[] symbols;
+    private String gameState;
+    private int x_count, o_count;
+    private char team;
+
+    public Board(){
+        symbols = new char[9];
+        team = 'X';
+        gameState = "";
+        x_count = 0;
+        o_count = 0;
+    }
+
+    public void fillBoard(){
+        for (int i = 0; i < 9; ++i){
+            symbols[i] = '_';
+        }
+    }
+
+    public void switchTeam(){
+        if (team == 'X'){
+            team = 'O';
+        }
+        else {
+            team = 'X';
+        }
+    }
+
+    public void printBoard(){
+        System.out.println("---------");
+        for (int i = 0; i < 9; i += 3){
+            System.out.print("| " + symbols[i] + " " + symbols[i+1] + " " + symbols[i+2] + " |\n");
+        }
+        System.out.println("---------");
+    }
+
+    public void countSymbols(){
+        x_count = 0; o_count = 0;
+        for (int i = 0; i < 9; ++i){
+            if (symbols[i] == 'X'){
+                x_count++;
+            }
+            else if (symbols[i] == 'O'){
+                o_count++;
+            }
+        }
+    }
+
+    public boolean makeMove(int x, int y){
+        if (x == 1){
+            switch (y){
+                case 1:
+                    if (symbols[6] == '_'){
+                        symbols[6] = team;
+                        return true;
+                    }
+                    else {
+                        return false;
+                    }
+                case 2:
+                    if (symbols[3] == '_'){
+                        symbols[3] = team;
+                        return true;
+                    }
+                    else {
+                        return false;
+                    }
+                case 3:
+                    if (symbols[0] == '_'){
+                        symbols[0] = team;
+                        return true;
+                    }
+                    else {
+                        return false;
+                    }
+            }
+        }
+        else if (x == 2){
+            switch (y){
+                case 1:
+                    if (symbols[7] == '_'){
+                        symbols[7] = team;
+                        return true;
+                    }
+                    else {
+                        return false;
+                    }
+                case 2:
+                    if (symbols[4] == '_'){
+                        symbols[4] = team;
+                        return true;
+                    }
+                    else {
+                        return false;
+                    }
+                case 3:
+                    if (symbols[1] == '_'){
+                        symbols[1] = team;
+                        return true;
+                    }
+                    else {
+                        return false;
+                    }
+            }
+        }
+        else {
+            switch (y){
+                case 1:
+                    if (symbols[8] == '_'){
+                        symbols[8] = team;
+                        return true;
+                    }
+                    else {
+                        return false;
+                    }
+                case 2:
+                    if (symbols[5] == '_'){
+                        symbols[5] = team;
+                        return true;
+                    }
+                    else {
+                        return false;
+                    }
+                case 3:
+                    if (symbols[2] == '_'){
+                        symbols[2] = team;
+                        return true;
+                    }
+                    else {
+                        return false;
+                    }
+            }
+        }
+        return false;
+    }
+
+    public void checkIfImpossible(){
+        int diff = Math.abs(x_count - o_count);
+        if (diff >= 2){
+            gameState = "Impossible";
+        }
+        else if (symbols[0] == symbols[3] && symbols[0] == symbols[6] && symbols[1] == symbols[4]
+                && symbols[1] == symbols[7] && symbols[0] != '_' && symbols[1] != '_'){
+            gameState = "Impossible";
+        }
+        else if (symbols[0] == symbols[3] && symbols[0] == symbols[6] && symbols[2] == symbols[5]
+                && symbols[2] == symbols[8] && symbols[0] != '_' && symbols[2] != '_'){
+            gameState = "Impossible";
+        }
+        else if (symbols[0] == symbols[1] && symbols[0] == symbols[2] && symbols[3] == symbols[4]
+                && symbols[3] == symbols[6] && symbols[0] != '_' && symbols[3] != '_'){
+            gameState = "Impossible";
+        }
+        else if (symbols[0] == symbols[1] && symbols[0] == symbols[2] && symbols[6] == symbols[7]
+                && symbols[6] == symbols[8] && symbols[0] != '_' && symbols[6] != '_'){
+            gameState = "Impossible";
+        }
+    }
+
+    public void checkBoardState(){
+        if (symbols[2] == symbols[4] && symbols[2] == symbols[6] && symbols[2] != '_'){
+            gameState = (symbols[2] == 'X') ? "X wins" : "O wins";
+        }
+        else if (symbols[0] == symbols[4] && symbols[0] == symbols[8] && symbols[0] != '_'){
+            gameState = (symbols[0] == 'X') ? "X wins" : "O wins";
+        }
+        else if (symbols[0] == symbols[3] && symbols[0] == symbols[6] && symbols[0] != '_'){
+            gameState = (symbols[0] == 'X') ? "X wins" : "O wins";
+        }
+        else if (symbols[0] == symbols[1] && symbols[0] == symbols[2] && symbols[0] != '_'){
+            gameState = (symbols[0] == 'X') ? "X wins" : "O wins";
+        }
+        else if (symbols[1] == symbols[4] && symbols[1] == symbols[7] && symbols[1] != '_'){
+            gameState = (symbols[1] == 'X') ? "X wins" : "O wins";
+        }
+        else if (symbols[2] == symbols[5] && symbols[2] == symbols[8] && symbols[2] != '_'){
+            gameState = (symbols[2] == 'X') ? "X wins" : "O wins";
+        }
+        else if (symbols[3] == symbols[4] && symbols[3] == symbols[5] && symbols[3] != '_'){
+            gameState = (symbols[3] == 'X') ? "X wins" : "O wins";
+        }
+        else if (symbols[6] == symbols[7] && symbols[6] == symbols[8] && symbols[6] != '_'){
+            gameState = (symbols[6] == 'X') ? "X wins" : "O wins";
+        }
+        else if (x_count + o_count == 9){
+            gameState = "Draw";
+        }
+        else {
+            gameState = "Game not finished";
+        }
+    }
+
+    public String getGameState(){
+        return gameState;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Board b = new Board();
+        b.fillBoard();
+//        b.countSymbols();
+        b.printBoard();
+        int x = 0, y = 0;
+        while (true){
+            Scanner s = new Scanner(System.in);
+            System.out.print("Enter the coordinates: ");
+            if (s.hasNextInt()){
+                x = s.nextInt();
+                y = s.nextInt();
+                if (x < 1 || x > 3 || y < 1 || y > 3){
+                    System.out.println("Coordinates should be from 1 to 3!");
+                }
+                else if (!b.makeMove(x, y)){
+                    System.out.println("This cell is occupied! Choose another one!");
+                }
+                else {
+                    b.printBoard();
+                    b.countSymbols();
+                    b.checkIfImpossible();
+                    if (b.getGameState().equals("Impossible")) {
+                        break;
+                    }
+                    else {
+                        b.checkBoardState();
+                        if (!b.getGameState().equals("Game not finished")){
+                            System.out.println(b.getGameState());
+                            break;
+                        }
+                    }
+                    b.switchTeam();
+                }
+            }
+            else {
+                System.out.println("You should enter numbers!");
+            }
+        }
+    }
+}
